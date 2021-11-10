@@ -296,6 +296,39 @@ class ChargedParticlesSim(object):
             vel += np.random.randn(T_save, self.dim, self.n_balls) * self.noise_var
             return loc, vel, edges, charges
 
+class ChargedParticlesSimWithAngleHarmonics(ChargedParticlesSim):
+    def __init__(self, k=0.1, b=0.5, *args, **kwargs):
+        super(ChargedParticlesSimWithAngleHarmonics, self).__init__(*args, **kwargs)
+        self.k = k
+        self.b = b
+
+    def _energy(self, loc, vel, edges):
+
+        # disables division by zero warning, since I fix it with fill_diagonal
+        with np.errstate(divide='ignore'):
+
+            K = 0.5 * (vel ** 2).sum()
+            U = 0
+            for i in range(loc.shape[1]):
+                for j in range(loc.shape[1]):
+                    if i != j:
+                        r = loc[:, i] - loc[:, j]
+                        dist = np.sqrt((r ** 2).sum())
+                        U += 0.5 * self.interaction_strength * edges[
+                            i, j] / dist
+
+            for i in range(loc.shape[1]):
+                for j in range(loc.shape[1]):
+                    for k in range(loc.shape[1]):
+                        if i != j and j != k and i != k:
+                            r_ij = loc[:, i] - loc[:, j]
+                            r_ik = loc[:, i] - loc[:, k]
+                            cos_jik = (r_ij * r_ik).sum(axis=-1) / (r_ij.norm(axis=-1) * r_ik.norm(axis=-1) + 1e-8)
+                            U += 0.5 * self.k * (cos_jik - self.b) ** 2
+
+            return U + K
+
+
 
 if __name__ == '__main__':
     #sim = SpringSim()
