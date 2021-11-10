@@ -1,4 +1,4 @@
-from synthetic_sim import ChargedParticlesSim, SpringSim
+from synthetic_sim import ChargedParticlesSim, SpringSim, ChargedParticlesSimWithAngleHarmonics
 import time
 import numpy as np
 import argparse
@@ -45,6 +45,9 @@ if args.simulation == 'springs':
     suffix = '_springs'
 elif args.simulation == 'charged':
     sim = ChargedParticlesSim(noise_var=0.0, n_balls=args.n_balls, vel_norm=initial_vel_norm)
+    suffix = '_charged'
+elif args.simulation == 'angle':
+    sim = ChargedParticlesSimWithAngleHarmonics(noise_var=0.0, n_balls=args.n_balls, vel_norm=initial_vel_norm)
     suffix = '_charged'
 else:
     raise ValueError('Simulation {} not implemented'.format(args.simulation))
@@ -109,4 +112,3 @@ if __name__ == "__main__":
     np.save('vel_test' + suffix + '.npy', vel_test)
     np.save('edges_test' + suffix + '.npy', edges_test)
     np.save('charges_test' + suffix + '.npy', charges_test)
-
