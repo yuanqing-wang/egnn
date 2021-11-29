@@ -18,6 +18,8 @@ class NBodyDataset():
             self.sufix += "_charged5_initvel1"
         elif dataset_name == "nbody_small" or dataset_name == "nbody_small_out_dist":
             self.sufix += "_charged5_initvel1small"
+        elif dataset_name == "angle":
+            self.suffix += "angle"
         else:
             raise Exception("Wrong dataset name %s" % self.dataset_name)
 
@@ -97,7 +99,7 @@ class NBodyDataset():
             frame_0, frame_T = 30, 40
         elif self.dataset_name == "nbody_small_out_dist":
             frame_0, frame_T = 20, 30
-        elif self.dataset_name == "nbody_angle":
+        elif self.dataset_name == "angle":
             frame_0, frame_t = 3, 4
         else:
             raise Exception("Wrong dataset partition %s" % self.dataset_name)

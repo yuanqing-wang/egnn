@@ -90,10 +90,10 @@ def main():
                                  max_samples=args.max_training_samples)
     loader_train = torch.utils.data.DataLoader(dataset_train, batch_size=args.batch_size, shuffle=True, drop_last=True)
 
-    dataset_val = NBodyDataset(partition='val', dataset_name="nbody_small")
+    dataset_val = NBodyDataset(partition='val', dataset_name=args.dataset)
     loader_val = torch.utils.data.DataLoader(dataset_val, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
-    dataset_test = NBodyDataset(partition='test', dataset_name="nbody_small")
+    dataset_test = NBodyDataset(partition='test', dataset_name=args.dataset)
     loader_test = torch.utils.data.DataLoader(dataset_test, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
 
@@ -268,7 +268,3 @@ if __name__ == "__main__":
         main_sweep()
     else:
         main()
-
-
-
-
