@@ -97,6 +97,8 @@ class NBodyDataset():
             frame_0, frame_T = 30, 40
         elif self.dataset_name == "nbody_small_out_dist":
             frame_0, frame_T = 20, 30
+        elif self.dataset_name == "nbody_angle":
+            frame_0, frame_t = 3, 4
         else:
             raise Exception("Wrong dataset partition %s" % self.dataset_name)
 
